@@ -3,7 +3,15 @@ import numpy as np
 import streamlit as st
 import requests
 import pickle
-loaded_model = pickle.load(open('C:/Users/levie/OneDrive/Desktop/Year 5/Data science/Python/models/heart_disease_model.sav','rb'))
+#Loading the file from github
+url = "https://github.com/Levice085/ML_model_files/heart_disease_model.sav"
+loaded_model = requests.get(url)
+with open("heart_disease_model.sav",'wb') as f:
+    pickle.dump(loaded_model,f)
+
+with open("heart_disease_model.sav","rb") as f:
+    loaded_model = pickle.load(f)
+
 def hd_prediction(X_train):
     X_train_np =np.asarray(X_train) 
     X_train_shaped = X_train_np.reshape(1,-1)
