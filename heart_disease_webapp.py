@@ -7,20 +7,18 @@ import os
 
 # Downloading the model file from GitHub
 url = "https://github.com/Levice085/ML_model_files/raw/main/heart_disease_model.sav"
-model_filename = "heart_disease_model.sav"
 
-# Check if the model already exists to avoid re-downloading
-if not os.path.exists(model_filename):
-    response = requests.get(url)
-    with open(model_filename, "wb") as f:
-        f.write(response.content)  # Write binary content correctly
+loaded_model = requests.get(url)
 
-# Load the model
-try:
-    with open(model_filename, "rb") as f:
-        loaded_model = pickle.load(f)
-except Exception as e:
-    st.error(f"Error loading the model: {e}")
+# Save the downloaded content to a temporary file
+with open('trained_model1.sav', 'wb') as f:
+    pickle.dump(loaded_model, f)
+
+
+# Load the saved model
+with open('trained_model1.sav', 'rb') as f:
+    loaded_model = pickle.load(f)
+
 
 # Function to make predictions
 def hd_prediction(X_train):
