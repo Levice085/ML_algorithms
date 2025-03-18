@@ -3,8 +3,7 @@ import numpy as np
 import streamlit as st
 import requests
 import pickle
-loaded_model = pickle.load(open("C:/Users/levie/OneDrive/Desktop/Year 5/Data science/Python/models/heart_disease_model.sav","rb"))
-#Creating a function for prediction
+loaded_model = pickle.load(open('C:/Users/levie/OneDrive/Desktop/Year 5/Data science/Python/models/heart_disease_model.sav','rb'))
 def hd_prediction(X_train):
     X_train_np =np.asarray(X_train) 
     X_train_shaped = X_train_np.reshape(1,-1)
