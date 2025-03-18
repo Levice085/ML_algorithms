@@ -29,7 +29,7 @@ def main():
     Maximum_Heart_Rate = st.text_input("Max heartbeat:")
     Excersize_Includes = st.text_input("Excersize_Includes:")
     ST_Depression = st.text_input("Depression levels:")
-    Slope_of_Excersize = st.text_input("Excersize: ")
+    Slope_of_Excersize = st.text_input("Excersize:")
     Number_of_vessels = st.text_input("Number of vessels:")
     #Code for prediction
     diagnosis = ''
