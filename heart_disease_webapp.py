@@ -29,7 +29,7 @@ def main():
     age = st.text_input("Age of the patient")
     sex = st.text_input("The patient's gender:")
     Chest_Pain = st.text_input("Level of chest pain:")
-    Blood_Pressure = st.text_inout("Blood pressure:")
+    Blood_Pressure = st.text_input("Blood pressure:")
     cholestoral = st.text_input("Level of cholestrol")
     Fasting_Blood_Sugar = st.text_input("Blood sugar levels:")
     resting_electrocardiographic = st.text_input("Resting:")
@@ -46,7 +46,7 @@ def main():
                                    resting_electrocardiographic,Maximum_Heart_Rate,Excersize_Includes,
                                    ST_Depression,Slope_of_Excersize,Number_of_vessels])
     st.success(diagnosis)
-    if __name__=="__main__":
+if __name__=="__main__":
         main()
 
 
