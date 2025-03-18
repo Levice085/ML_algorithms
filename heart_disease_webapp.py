@@ -3,8 +3,7 @@ import numpy as np
 import streamlit as st
 import requests
 import pickle
-loaded_model = pickle.load(open("C:/Users/levie/OneDrive/Desktop/Year 5/Data science/Python/scripts/ML_algorithms/heart_disease_model.sav",'rb'))
-
+loaded_model = pickle.load(open("C:/Users/levie/OneDrive/Desktop/Year 5/Data science/Python/models/heart_disease_model.sav","rb"))
 #Creating a function for prediction
 def hd_prediction(X_train):
     X_train_np =np.asarray(X_train) 
@@ -30,9 +29,8 @@ def main():
     Maximum_Heart_Rate = st.text_input("Max heartbeat:")
     Excersize_Includes = st.text_input("Excersize_Includes:")
     ST_Depression = st.text_input("Depression levels:")
-    Slope_of_Excersize = st.text_input("Excersize":)
+    Slope_of_Excersize = st.text_input("Excersize: ")
     Number_of_vessels = st.text_input("Number of vessels:")
-
     #Code for prediction
     diagnosis = ''
     #Creating a button for prediction
