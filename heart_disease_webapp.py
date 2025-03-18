@@ -3,50 +3,67 @@ import numpy as np
 import streamlit as st
 import requests
 import pickle
-#Loading the file from github
-url = "https://github.com/Levice085/ML_model_files/heart_disease_model.sav"
-loaded_model = requests.get(url)
-with open("heart_disease_model.sav",'wb') as f:
-    pickle.dump(loaded_model,f)
+import os
 
-with open("heart_disease_model.sav","rb") as f:
-    loaded_model = pickle.load(f)
+# Downloading the model file from GitHub
+url = "https://github.com/Levice085/ML_model_files/raw/main/heart_disease_model.sav"
+model_filename = "heart_disease_model.sav"
 
+# Check if the model already exists to avoid re-downloading
+if not os.path.exists(model_filename):
+    response = requests.get(url)
+    with open(model_filename, "wb") as f:
+        f.write(response.content)  # Write binary content correctly
+
+# Load the model
+try:
+    with open(model_filename, "rb") as f:
+        loaded_model = pickle.load(f)
+except Exception as e:
+    st.error(f"Error loading the model: {e}")
+
+# Function to make predictions
 def hd_prediction(X_train):
-    X_train_np =np.asarray(X_train) 
-    X_train_shaped = X_train_np.reshape(1,-1)
-    y_pred =loaded_model.predict(X_train_shaped)
-    print(y_pred)
-    if y_pred[0]==0:
-        return("The patient is has no heart disease")
-    else:
-        return("The patient has heart disease")
+    X_train_np = np.asarray(X_train, dtype=float)  # Convert input to float
+    X_train_shaped = X_train_np.reshape(1, -1)
+    y_pred = loaded_model.predict(X_train_shaped)
     
+    if y_pred[0] == 0:
+        return "The patient has no heart disease"
+    else:
+        return "The patient has heart disease"
+
+# Streamlit App
 def main():
-    #Giving a title
-    st.title("Heart disease prediction Web app")
+    # Title
+    st.title("Heart Disease Prediction Web App")
 
-    age = st.text_input("Age of the patient")
-    sex = st.text_input("The patient's gender:")
-    Chest_Pain = st.text_input("Level of chest pain:")
-    Blood_Pressure = st.text_input("Blood pressure:")
-    cholestoral = st.text_input("Level of cholestrol")
-    Fasting_Blood_Sugar = st.text_input("Blood sugar levels:")
-    resting_electrocardiographic = st.text_input("Resting:")
-    Maximum_Heart_Rate = st.text_input("Max heartbeat:")
-    Excersize_Includes = st.text_input("Excersize_Includes:")
-    ST_Depression = st.text_input("Depression levels:")
-    Slope_of_Excersize = st.text_input("Excersize:")
-    Number_of_vessels = st.text_input("Number of vessels:")
-    #Code for prediction
+    # User Inputs
+    age = st.number_input("Age of the patient", min_value=1, max_value=120, step=1)
+    sex = st.radio("The patient's gender:", options=[0, 1])  # 0 = Female, 1 = Male
+    Chest_Pain = st.number_input("Level of chest pain", min_value=0, max_value=3, step=1)
+    Blood_Pressure = st.number_input("Blood pressure", min_value=80, max_value=200, step=1)
+    cholestoral = st.number_input("Level of cholesterol", min_value=100, max_value=500, step=1)
+    Fasting_Blood_Sugar = st.radio("Fasting Blood Sugar > 120 mg/dl", options=[0, 1])
+    resting_electrocardiographic = st.number_input("Resting ECG results", min_value=0, max_value=2, step=1)
+    Maximum_Heart_Rate = st.number_input("Max Heart Rate", min_value=60, max_value=220, step=1)
+    Excersize_Includes = st.radio("Exercise Induced Angina", options=[0, 1])
+    ST_Depression = st.number_input("ST Depression", min_value=0.0, max_value=6.2, step=0.1)
+    Slope_of_Excersize = st.number_input("Slope of Exercise", min_value=0, max_value=2, step=1)
+    Number_of_vessels = st.number_input("Number of Major Vessels", min_value=0, max_value=4, step=1)
+
+    # Prediction
     diagnosis = ''
-    #Creating a button for prediction
-    if st.button("Heart disease test results:"):
-        diagnosis = hd_prediction([age,sex,Chest_Pain,Blood_Pressure,cholestoral,Fasting_Blood_Sugar,
-                                   resting_electrocardiographic,Maximum_Heart_Rate,Excersize_Includes,
-                                   ST_Depression,Slope_of_Excersize,Number_of_vessels])
+    if st.button("Get Heart Disease Prediction"):
+        diagnosis = hd_prediction([
+            age, sex, Chest_Pain, Blood_Pressure, cholestoral, Fasting_Blood_Sugar,
+            resting_electrocardiographic, Maximum_Heart_Rate, Excersize_Includes,
+            ST_Depression, Slope_of_Excersize, Number_of_vessels
+        ])
+    
+    # Display Result
     st.success(diagnosis)
-if __name__=="__main__":
-        main()
 
-
+# Run the app
+if __name__ == "__main__":
+    main()
