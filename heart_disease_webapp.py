@@ -49,6 +49,8 @@ def main():
     ST_Depression = st.number_input("ST Depression", min_value=0.0, max_value=6.2, step=0.1)
     Slope_of_Excersize = st.number_input("Slope of Exercise", min_value=0, max_value=2, step=1)
     Number_of_vessels = st.number_input("Number of Major Vessels", min_value=0, max_value=4, step=1)
+    Thalassemia = st.number_input("Thalassemia",min_value =0,max_value =4,step=1)
+    
 
     # Prediction
     diagnosis = ''
